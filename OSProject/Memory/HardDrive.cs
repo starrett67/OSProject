@@ -23,7 +23,7 @@ namespace OSProject.Memory
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public HardDrive getInstance()
+        public HardDrive GetInstance()
         {
             if (disk == null)
             {
@@ -32,7 +32,7 @@ namespace OSProject.Memory
             return disk;
         }
 
-        public bool write(String word)
+        public bool Write(String word)
         {
             if (nextMemoryLocation >= 0 && nextMemoryLocation <= 2047 && word != null)
             {
@@ -52,7 +52,7 @@ namespace OSProject.Memory
             return false;
         }
 
-        public bool writeLocation(String word, int loc)
+        public bool WriteLocation(String word, int loc)
         {
             if (loc > 0 && loc < 2048 && word != null)
             {
@@ -66,12 +66,17 @@ namespace OSProject.Memory
             return false;
         }
 
-        public int currentDiskSize()
+        public int CurrentUsedSpace()
         {
             return lastMemoryLocation;
         }
 
-        public String memoryDump()
+        public int GetSpaceRemaining()
+        {
+            return hardDrive.Length - nextMemoryLocation;
+        }
+
+        public String MemoryDump()
         {
             String memoryDump = "Memory Dump";
             for (int i = 0; i < nextMemoryLocation; i++)
