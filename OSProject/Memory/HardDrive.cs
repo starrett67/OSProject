@@ -23,7 +23,7 @@ namespace OSProject.Memory
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public HardDrive GetInstance()
+        public static HardDrive GetInstance()
         {
             if (disk == null)
             {

@@ -11,7 +11,7 @@ namespace OSProject.ControlUnit
         private static CPU cpu;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public CPU GetInstance()
+        public static CPU GetInstance()
         {
             if (cpu == null)
             {

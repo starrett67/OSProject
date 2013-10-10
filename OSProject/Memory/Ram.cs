@@ -20,7 +20,7 @@ namespace OSProject.Memory
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Ram GetInstance()
+        public static Ram GetInstance()
         {
             if (RAM == null)
             {

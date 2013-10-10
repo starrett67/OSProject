@@ -11,7 +11,7 @@ namespace OSProject.Loader
         private static Loader loader;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Loader GetInstance()
+        public static Loader GetInstance()
         {
             if (loader == null)
             {

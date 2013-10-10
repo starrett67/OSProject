@@ -11,7 +11,7 @@ namespace OSProject.ControlUnit
         private static Dispatcher dispatch;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Dispatcher GetInstance()
+        public static Dispatcher GetInstance()
         {
             if (dispatch == null)
             {

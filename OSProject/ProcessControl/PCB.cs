@@ -11,7 +11,7 @@ namespace OSProject.ProcessControl
         private static PCB pcb;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public PCB GetInstance()
+        public static PCB GetInstance()
         {
             if (pcb == null)
             {

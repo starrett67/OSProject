@@ -11,7 +11,7 @@ namespace OSProject.ProcessControl
         private static ReadyQueue queue;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public ReadyQueue GetInstance()
+        public static ReadyQueue GetInstance()
         {
             if (queue == null)
             {

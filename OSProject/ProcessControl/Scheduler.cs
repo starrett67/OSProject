@@ -11,7 +11,7 @@ namespace OSProject.ProcessControl
         private static Scheduler scheduler;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public Scheduler GetInstance()
+        public static Scheduler GetInstance()
         {
             if (scheduler == null)
             {
