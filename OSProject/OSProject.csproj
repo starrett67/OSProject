@@ -54,7 +54,6 @@
     <Compile Include="ProcessControl\ReadyQueue.cs" />
     <Compile Include="ProcessControl\Scheduler.cs" />
     <Compile Include="ProcessControl\State.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
