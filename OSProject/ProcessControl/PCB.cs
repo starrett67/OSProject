@@ -8,6 +8,7 @@ namespace OSProject.ProcessControl
 {
     class PCB
     {
+        private List<ProcessData> dataList = new List<ProcessData>();
         private static PCB pcb;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -22,6 +23,8 @@ namespace OSProject.ProcessControl
 
         private PCB()
         {
+            ProcessData temp = new ProcessData;
+            temp.
         }
     }
 }

@@ -13,12 +13,11 @@ namespace OSProject.Driver
     {
         public static int Main(string[] args)
         {
-            HardDrive.GetInstance();
-            PCB.GetInstance();
-            Dispatcher.GetInstance();
-            Ram.GetInstance();
-            CPU.GetInstance();
-            Loader.Loader.GetInstance();
+            HardDrive disk = HardDrive.GetInstance();
+            PCB processControl = PCB.GetInstance();
+            Ram memory = Ram.GetInstance();
+            Loader.Loader fileLoader = Loader.Loader.GetInstance();
+            fileLoader.Load();
             return 0;
         }
     }

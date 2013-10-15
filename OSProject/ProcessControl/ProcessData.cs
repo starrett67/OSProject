@@ -9,7 +9,7 @@ namespace OSProject.ProcessControl
     {
         //variables
         //Process identification number
-        private int PrcessId;
+        private int ProcessId;
         //Instruction disk location and length
         private int ProcessDiskStart;
         //Instruction memory location and length
@@ -54,6 +54,95 @@ namespace OSProject.ProcessControl
         //default constructor
         public ProcessData()
         {
+
+        }
+        public int GetProcessId()
+        {
+            return ProcessId;
+        }
+        public void SetProcessId(int id)
+        {
+            ProcessId = id;
+        }
+        public int GetProcessDiskStart()
+        {
+            return ProcessDiskStart;
+        }
+        public void SetProcessDiskStart(int start)
+        {
+            ProcessDiskStart = start;
+        }
+        public int GetProcessMemoryStart()
+        {
+            return ProcessMemoryStart;
+        }
+        public void SetProcessMemoryStart(int start)
+        {
+            ProcessMemoryStart = start;
+        }
+        public int GetDataDiskStart()
+        {
+            return DataDiskStart;
+        }
+        public void SetDataDiskStart(int start)
+        {
+            DataDiskStart = start;
+        }
+        public int GetDataMemoryStart()
+        {
+            return DataMemoryStart;
+        }
+        public void SetDataMemoryStart(int start)
+        {
+            DataMemoryStart = start;
+        }
+        public int GetProcessCount()
+        {
+            return ProcessCount;
+        }
+        public void SetProcessCount(int count)
+        {
+            ProcessCount = count;
+        }
+        public int GetProcessBaseRegister()
+        {
+            return ProcessBaseRegister;
+        }
+        public void SetProcessBaseRegister(int register)
+        {
+            ProcessBaseRegister = register;
+        }
+        public int GetDataDiskSize()
+        {
+            return DataDiskSize;
+        }
+        public void SetDataDiskSize(int size)
+        {
+            DataDiskSize = size;
+        }
+        public int GetJobPriority()
+        {
+            return JobPriority;
+        }
+        public void setJobPriority(int priority)
+        {
+            JobPriority = priority;
+        }
+        public void SetProcessState(int state)
+        {
+            ProcessState = state;
+        }
+        public int GetProcessStae()
+        {
+            return ProcessState;
+        }
+        public State GetState()
+        {
+            return State;
+        }
+        public void SetState(State state)
+        {
+            State = state;
         }
     }
 }
