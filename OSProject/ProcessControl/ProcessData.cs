@@ -45,16 +45,30 @@ namespace OSProject.ProcessControl
 
         private State State;
 
-        public sealed static int PROCESS_READY = 0;
-        public sealed static int PROCESS_WAIT = 1;
-        public sealed static int PROCESS_RUNNING = 2;
-        public sealed static int PROCESS_TERMINATED = 3;
-        public sealed static int PROCESS_DEFAULT = 4;
+        public static int PROCESS_READY = 0;
+        public static int PROCESS_WAIT = 1;
+        public static int PROCESS_RUNNING = 2;
+        public static int PROCESS_TERMINATED = 3;
+        public static int PROCESS_DEFAULT = 4;
 
         //default constructor
         public ProcessData()
         {
-
+            ProcessId = -1;
+            ProcessDiskStart = -1;
+            ProcessMemoryStart = -1;
+            ProcessCount = 0;
+            ProcessBaseRegister = -1;
+            DataDiskSize = -1;
+            DataMemoryStart = -1;
+            DataDiskSize = 0;
+            DataMemoryStart = -1;
+            JobPriority = -1;
+            InputBuffer = -1;
+            OutputBuffer = -1;
+            TempBuffer = -1;
+            ProcessState = 4;
+            State = new State();
         }
         public int GetProcessId()
         {
@@ -143,6 +157,30 @@ namespace OSProject.ProcessControl
         public void SetState(State state)
         {
             State = state;
+        }
+        public void SetInputBuffer(int bufferSize)
+        {
+            InputBuffer = bufferSize;
+        }
+        public int GetInputBuffer()
+        {
+            return InputBuffer;
+        }
+        public void SetOutputBuffer(int bufferSize)
+        {
+            OutputBuffer = bufferSize;
+        }
+        public int GetOutputBuffer()
+        {
+            return OutputBuffer;
+        }
+        public void SetTempBuffer(int bufferSize)
+        {
+            TempBuffer = bufferSize;
+        }
+        public int GetTempBuffer()
+        {
+            return TempBuffer;
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
 using System.IO;
+using OSProject.ProcessControl;
+using OSProject.Memory;
 
 namespace OSProject.Loader
 {
@@ -39,36 +41,39 @@ namespace OSProject.Loader
         {
             try
             {
-                StreamReader file = new StreamReader("datafile2.txt");
+                StreamReader file = new StreamReader("Datafile2.txt");
                 String line = file.ReadLine();
                 while (!String.IsNullOrEmpty(line))
                 {
                     if (line.Contains("JOB"))
                     {
-                        //add job to pcb
+                        JobId = PCB.GetInstance().addJob(line);
                         FirstJobLine = true;
                     }
                     else if (line.Contains("Data"))
                     {
-                        //add data to pcb
+                        PCB.GetInstance().addData(line, JobId);
                         count = 0;
                         FirstDataLine = true;
                     }
                     else if (line.Contains("END"))
                     {
+                        PCB.GetInstance().getProcessData(JobId).SetDataDiskSize(count);
                         JobId = -1;
                     }
                     else
                     {
-                        //save to harddrive
+                        HardDrive.GetInstance().Write(line);
                         if (FirstJobLine)
                         {
-                            //set process disk start location
+                            PCB.GetInstance().getProcessData(JobId).SetProcessDiskStart(HardDrive.GetInstance()
+                                .CurrentUsedSpace());
                             FirstJobLine = false;
                         }
                         else if (FirstDataLine)
                         {
-                            //set data disk start location
+                            PCB.GetInstance().getProcessData(JobId).SetDataDiskStart(HardDrive.GetInstance()
+                                .CurrentUsedSpace());
                             FirstDataLine = false;
                         }
                         count++;
@@ -76,11 +81,12 @@ namespace OSProject.Loader
                     line = file.ReadLine();
                 }
                 file.Close();
+                HardDrive drive = HardDrive.GetInstance();
             }
             catch (IOException ex)
             {
                 System.Console.Out.WriteLine(ex.StackTrace);
-                throw new IOException(ex.StackTrace);
+                throw new IOException(ex.Message);
             }
         }
     }
