@@ -42,7 +42,7 @@ namespace OSProject.Memory
             }
         }
 
-        public bool Write(String data)
+        public int Write(String data)
         {
             if (data != null)
             {
@@ -50,7 +50,7 @@ namespace OSProject.Memory
                 {
                     ram[nextMemoryLocation] = data;
                     nextMemoryLocation++;
-                    return true;
+                    return nextMemoryLocation - 1;
                 }
                 else
                 {
@@ -61,21 +61,20 @@ namespace OSProject.Memory
             {
                 throw new ArgumentException("cannot write null data");
             }
-            return false;
         }
 
-        public bool WriteLocation(String data, int loc)
+        public int WriteLocation(String data, int loc)
         {
-            if (data != null && loc > 0 && loc < 1024)
+            nextMemoryLocation = loc + 1;
+            if (data != null && loc >-1 && loc < 1024)
             {
                 ram[loc] = data;
-                return true;
+                return loc;
             }
             else
             {
                 throw new ArgumentException("either data is null or write location is invalid. Location : " + loc);
             }
-            return false;
         }
 
         public string MemoryDump()
@@ -104,6 +103,46 @@ namespace OSProject.Memory
         public int GetCurrentMemoryLocation()
         {
             return nextMemoryLocation;
+        }
+
+        public int GetAvailableSlotStartLocation(int requiredSpace)
+        {
+            //this method will search the Ram for a slot big enough to store the job
+            //if there is a slot big enough then we will report the start location for that spot
+
+            int count = 0;
+            int startLocation = -1;
+            int i = 0;
+            bool firstSpotFound = false;
+            while (i < ram.Length)
+            {
+                if (!firstSpotFound)
+                {
+                    if (ram[i] == "" || ram[i] == null)
+                    {
+                        firstSpotFound = true;
+                        startLocation = i;
+                        count++;
+                    }
+                }
+                else
+                {
+                    if (ram[i] == "" || ram[i] == null)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        firstSpotFound = false;
+                        startLocation = -1;
+                        count = 0;
+                    }
+                }
+                i++;
+                if (requiredSpace < count)
+                    return startLocation;
+            }
+            return -1;
         }
 
     }

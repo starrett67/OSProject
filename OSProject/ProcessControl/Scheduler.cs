@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
+using OSProject.Memory;
 
 namespace OSProject.ProcessControl
 {
     class Scheduler
     {
         private static Scheduler scheduler;
-
+        private int CurrentJob;
+        private int CurrentDiskLoc;
+        private int CurretRamLoc;
+        private int RamStartLoc;
+        private int ProcessRamStart;
+        private int DataRamStart;
+        private int InstructionCount;
+        private int DataCount;
+        private ProcessData tempProcessData;
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static Scheduler GetInstance()
         {
@@ -22,6 +31,59 @@ namespace OSProject.ProcessControl
 
         private Scheduler()
         {
+            CurrentJob = 1;
+        }
+        public void LongTermScheduler(int ramStartLocation)
+        {
+            //Find next process so we can add it to ready queue
+            CurrentJob = PCB.GetInstance().getNextProcess().GetProcessId();
+            CurretRamLoc = ramStartLocation;
+            RamStartLoc = ramStartLocation;
+            tempProcessData = PCB.GetInstance().getProcessData(CurrentJob);
+            CurrentDiskLoc = tempProcessData.GetProcessDiskStart();
+            if (RamStartLoc + tempProcessData.GetProcessCount() + tempProcessData.GetDataDiskSize()
+                + tempProcessData.GetOutputBuffer() + tempProcessData.GetInputBuffer()
+                  + tempProcessData.GetTempBuffer() < 1024)
+            {
+                ReadyQueue.GetInstance().addJob(CurrentJob);
+                PCB.GetInstance().getProcessData(CurrentJob).SetProcessMemoryStart(Ram.GetInstance().WriteLocation(
+                    HardDrive.GetInstance().GetDataFromLocation(CurrentDiskLoc), CurretRamLoc));
+                CurretRamLoc++;
+                CurrentDiskLoc++;
+                InstructionCount = tempProcessData.GetProcessCount();
+                //place the rest of the process's in the ram
+                while(CurrentDiskLoc < tempProcessData.GetProcessDiskStart() + InstructionCount)
+                {
+                    Ram.GetInstance().Write(HardDrive.GetInstance().GetDataFromLocation(CurrentDiskLoc));
+                    CurrentDiskLoc++;
+                    CurretRamLoc++;
+                }
+                //now move on to data
+                CurrentDiskLoc = tempProcessData.GetDataDiskStart();
+                PCB.GetInstance().getProcessData(CurrentJob).SetDataMemoryStart(CurretRamLoc);
+                int DataCount, DataTempBuffer;
+                DataCount = tempProcessData.GetDataDiskSize();
+                DataTempBuffer = tempProcessData.GetTempBuffer();
+                while (CurrentDiskLoc < (tempProcessData.GetDataDiskStart() + DataCount))
+                {
+                    Ram.GetInstance().Write(HardDrive.GetInstance().GetDataFromLocation(CurrentDiskLoc));
+                    CurrentDiskLoc++;
+                    CurretRamLoc++;
+                }
+                while (DataTempBuffer > 0)
+                {
+                    Ram.GetInstance().Write("");
+                    DataTempBuffer--;
+                }
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Scheduluer: Ram out of bounds");
+            }
+        }
+        public void ShortTermScheduler()
+        {
+
         }
     }
 }

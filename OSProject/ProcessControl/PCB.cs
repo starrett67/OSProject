@@ -9,7 +9,9 @@ namespace OSProject.ProcessControl
     class PCB
     {
         private List<ProcessData> dataList = new List<ProcessData>();
+        private int currentProcess;
         private static PCB pcb;
+        private bool done;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static PCB GetInstance()
@@ -23,7 +25,8 @@ namespace OSProject.ProcessControl
 
         private PCB()
         {
-            ProcessData temp = new ProcessData();
+            currentProcess = 0;
+            done = false;
         }
 
         public int addJob(string line)
@@ -60,6 +63,28 @@ namespace OSProject.ProcessControl
                 throw new ArgumentException("Something went wrong, processdata not retrieved");
             }
             return temp;
+        }
+        public ProcessData getNextProcess()
+        {
+            if (currentProcess == dataList.Count)
+            {
+                currentProcess = 0;
+                done = true;
+                return null;
+            }
+            else
+            {
+                currentProcess++;
+                return dataList.ElementAt(currentProcess - 1);
+            }
+        }
+        public ProcessData getCurrentProcess()
+        {
+            return dataList.ElementAt(currentProcess);
+        }
+        public bool isDone()
+        {
+            return done;
         }
     }
 }

@@ -49,7 +49,6 @@ namespace OSProject.Memory
             {
                 throw new ArgumentException("Something went wrong, did not save");
             }
-            return false;
         }
 
         public bool WriteLocation(String word, int loc)
@@ -63,7 +62,11 @@ namespace OSProject.Memory
             {
                 throw new ArgumentException("Something went wrong, did not save");
             }
-            return false;
+        }
+
+        public String GetDataFromLocation(int loc)
+        {
+            return hardDrive[loc];
         }
 
         public int CurrentUsedSpace()

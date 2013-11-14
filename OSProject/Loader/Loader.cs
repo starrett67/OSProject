@@ -82,6 +82,7 @@ namespace OSProject.Loader
                 }
                 file.Close();
                 HardDrive drive = HardDrive.GetInstance();
+                PCB pcb = PCB.GetInstance();
             }
             catch (IOException ex)
             {

@@ -9,6 +9,7 @@ namespace OSProject.ProcessControl
     class ReadyQueue
     {
         private static ReadyQueue queue;
+        List<int> readyQueue = new List<int>();
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static ReadyQueue GetInstance()
@@ -22,6 +23,31 @@ namespace OSProject.ProcessControl
 
         private ReadyQueue()
         {
+        }
+
+        public void addJob(int jobID)
+        {
+            readyQueue.Add(jobID);
+        }
+
+        public void removeFromReadyQueue(int processID)
+        {
+            readyQueue.Remove(processID);
+        }
+
+        public int getHighestPriority()
+        {
+            int priority = 0;
+            int temp = 0;
+            foreach (int id in readyQueue)
+            {
+                temp = PCB.GetInstance().getProcessData(id).GetJobPriority();
+                if (temp > priority)
+                {
+                    priority = id;
+                }
+            }
+            return priority;
         }
     }
 }
