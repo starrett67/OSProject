@@ -20,7 +20,7 @@ namespace OSProject.ControlUnit
         {
             format = binaryString.Substring(0, 2);
             opCode = binaryString.Substring(2, 6);
-            parameter = binaryString.Substring(8, binaryString.Length);
+            parameter = binaryString.Substring(8, binaryString.Length - 8);
         }
     }
 }

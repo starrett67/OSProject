@@ -15,7 +15,7 @@ namespace OSProject.ControlUnit
         {
             this.BReg = this.parameter.Substring(0, 4);
             this.DReg = this.parameter.Substring(4, 4);
-            this.Address = this.parameter.Substring(8, this.parameter.Length);
+            this.Address = this.parameter.Substring(8, this.parameter.Length - 8);
         }
     }
 }

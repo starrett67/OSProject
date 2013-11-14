@@ -41,12 +41,37 @@ namespace OSProject.ControlUnit
 
         private void decode()
         {
-
+            String binary = Convert.ToString(Convert.ToInt32(currentHexInstruction, 16), 2);
+            currentInstruction = new Instruction(binary);
         }
 
         private void execute()
         {
- 
+            string format = currentInstruction.format;
+            if (format.Equals("00"))
+            {
+                currentInstruction = new InstructionArithmetic();
+                //arithmetic
+            }
+            else if (format.Equals("01"))
+            {
+                currentInstruction = new InstructionBranchAndImmediate();
+                //Branch and Immediate
+            }
+            else if (format.Equals("10"))
+            {
+                currentInstruction = new InstructionJump();
+                //Jump
+            }
+            else if (format.Equals("11"))
+            {
+                currentInstruction = new InstructionIO();
+                //IO
+            }
+            else
+            {
+                throw new InvalidOperationException("Instruction format is invalid");
+            }
         }
 
         public void loadCache(ProcessControl.ProcessData currentProcess)
