@@ -146,7 +146,7 @@ namespace OSProject.ProcessControl
         {
             ProcessState = state;
         }
-        public int GetProcessStae()
+        public int GetProcessState()
         {
             return ProcessState;
         }

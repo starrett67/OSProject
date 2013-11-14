@@ -49,5 +49,13 @@ namespace OSProject.ProcessControl
             }
             return priority;
         }
+
+        public bool isEmpty()
+        {
+            if (readyQueue.Count == 0)
+                return true;
+            else
+                return false;
+        }
     }
 }

@@ -24,8 +24,7 @@ namespace OSProject.Driver
             while (!processControl.isDone())
             {
                 ProcessData temp = processControl.getCurrentProcess();
-                totalRequiredRamSpace = temp.GetProcessCount() + temp.GetDataDiskSize()
-                    + temp.GetInputBuffer() + temp.GetOutputBuffer() + temp.GetTempBuffer();
+                totalRequiredRamSpace = temp.GetProcessCount() + temp.GetDataDiskSize() + temp.GetTempBuffer();
                 int ramStartLoc = memory.GetAvailableSlotStartLocation(totalRequiredRamSpace);
                 if (ramStartLoc != -1)
                 {
@@ -35,7 +34,14 @@ namespace OSProject.Driver
                 else
                 {
                     //we have brought as many jobs into memory as possible, start the short term scheduler
-                    scheduler.ShortTermScheduler();
+                    if (!ReadyQueue.GetInstance().isEmpty() && !Dispatcher.GetInstance().isBusy())
+                    {
+                        scheduler.ShortTermScheduler();
+                    }
+                    if (Dispatcher.GetInstance().isBusy())
+                    {
+                        CPU.GetInstance().run();
+                    }
                 }
             }
             return 0;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
 using OSProject.Memory;
+using OSProject.ControlUnit;
 
 namespace OSProject.ProcessControl
 {
@@ -46,6 +47,7 @@ namespace OSProject.ProcessControl
                   + tempProcessData.GetTempBuffer() < 1024)
             {
                 ReadyQueue.GetInstance().addJob(CurrentJob);
+                PCB.GetInstance().getProcessData(CurrentJob).SetProcessState(ProcessData.PROCESS_READY);
                 PCB.GetInstance().getProcessData(CurrentJob).SetProcessMemoryStart(Ram.GetInstance().WriteLocation(
                     HardDrive.GetInstance().GetDataFromLocation(CurrentDiskLoc), CurretRamLoc));
                 CurretRamLoc++;
@@ -81,9 +83,19 @@ namespace OSProject.ProcessControl
                 throw new ArgumentOutOfRangeException("Scheduluer: Ram out of bounds");
             }
         }
-        public void ShortTermScheduler()
+        public bool ShortTermScheduler()
         {
-
+            int nextJob = ReadyQueue.GetInstance().getHighestPriority();
+            if (nextJob > 0)
+            {
+                Dispatcher.GetInstance().dispatchProcess(nextJob);
+                ReadyQueue.GetInstance().removeFromReadyQueue(nextJob);
+                return true;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Invalid Process Id");
+            }
         }
     }
 }

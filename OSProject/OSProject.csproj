@@ -45,6 +45,11 @@
   <ItemGroup>
     <Compile Include="ControlUnit\CPU.cs" />
     <Compile Include="ControlUnit\Dispatcher.cs" />
+    <Compile Include="ControlUnit\Instructions\Instruction.cs" />
+    <Compile Include="ControlUnit\Instructions\InstructionArithmetic.cs" />
+    <Compile Include="ControlUnit\Instructions\InstructionBranchAndImmediate.cs" />
+    <Compile Include="ControlUnit\Instructions\InstructionIO.cs" />
+    <Compile Include="ControlUnit\Instructions\InstructionJump.cs" />
     <Compile Include="Driver\Driver.cs" />
     <Compile Include="Loader\Loader.cs" />
     <Compile Include="Memory\HardDrive.cs" />
