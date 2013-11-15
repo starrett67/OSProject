@@ -95,6 +95,14 @@ namespace OSProject.Memory
             }
         }
 
+        public void WipeRam(int start, int end)
+        {
+            for (int i = start; i < end; i++)
+            {
+                ram[i] = "";
+            }
+        }
+
         public int GetFreeSpace()
         {
             return ram.Length - nextMemoryLocation;

@@ -40,16 +40,33 @@ namespace OSProject.ControlUnit
             programCache = Ram.GetInstance().Read(instructionAddress);
         }
 
+        private string hextobinary(char hexChar)
+        {
+            string binVal;
+            binVal = Convert.ToString(Convert.ToInt32(hexChar.ToString(), 16), 2).PadLeft(4, '0');
+            return binVal;
+        }
+
         private void decode()
         {
-            String binary = Convert.ToString(Convert.ToInt32(programCache.Trim(), 16), 2);
+            int length;
+            Console.Out.WriteLine(programCache.Trim());
+            Dispatcher dis = Dispatcher.GetInstance();
+            Ram rm = Ram.GetInstance();
+            String hexValue = programCache.Trim().Substring(2);
+            String binary = "";
+            for (int i = 0; i < hexValue.Length; i++)
+            {
+                binary += hextobinary(hexValue[i]);
+            }
             currentInstruction = new Instruction(binary);
+            length = binary.Length;
         }
 
         private void execute()
         {
             string format = currentInstruction.format;
-            if (currentInstruction.opCode.Equals("0010011"))//nop
+            if (currentInstruction.opCode.Equals("010011"))//nop
             {
                 //do nothing
             }
@@ -82,21 +99,45 @@ namespace OSProject.ControlUnit
         private void Arithmetic()
         {
             String opCode = currentInstruction.opCode;
+            int sReg1 = currentInstruction.SReg1;
+            int sReg2 = currentInstruction.SReg2;
+            int dReg = currentInstruction.DReg;
             switch (opCode)
             {
                 case "000100":  //MOV
+                    register[sReg1] = register[sReg2];
                     break;
                 case "000101":  //ADD
+                    register[dReg] = register[sReg1] + register[sReg2];
                     break;
                 case "000110":  //SUB
+                    register[dReg] = register[sReg1] - register[sReg2];
                     break;
                 case "000111":  //MUL
+                    register[dReg] = register[sReg1] * register[sReg2];
                     break;
                 case "001000":  //DIV
+                    register[dReg] = register[sReg1] / register[sReg2];
                     break;
                 case "001001":  //AND
+                    if (register[sReg1] != 0 && register[sReg2] != 0)
+                        register[dReg] = 1;
+                    else
+                        register[dReg] = 0;
                     break;
                 case "001010":  //OR
+                    if (register[sReg1] == 0 && register[sReg2] == 0)
+                        register[dReg] = 0;
+                    else
+                        register[dReg] = 1;
+                    break;
+                case "010000":  //SLT
+                    if (register[sReg1] < register[sReg2])
+                        register[dReg] = 1;
+                    else
+                        register[dReg] = 0;
+                    break;
+                case default:
                     break;
             }
         }
@@ -180,13 +221,26 @@ namespace OSProject.ControlUnit
             int reg1 = currentInstruction.Reg1;
             int reg2 = currentInstruction.Reg2;
             int address = currentInstruction.Address;
+            string hex = "0";
             ProcessData process = Dispatcher.GetInstance().currentProcess;
             switch (opCode)
             {
                 case "000000":  //RD
                     //register[reg1] Convert.ToInt32(Ram.GetInstance().Read(
+                    if (reg1 != 0 && reg2 != 0)
+                    {
+                        hex = Ram.GetInstance().Read(process.GetDataMemoryStart() + (reg2));
+                        hex = hex.Substring(2);
+                    }
+                    else
+                    {
+                        hex = Ram.GetInstance().Read(process.GetProcessMemoryStart() + (address / 4));
+                        hex = hex.Substring(2);
+                    }
+                    register[Accumulator] += int.Parse(hex, System.Globalization.NumberStyles.HexNumber);
                     break;
                 case "000001":  //WR
+                    String write = "0x" + register[Accumulator].ToString("X8");
                     break;
             }
         }

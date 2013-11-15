@@ -39,6 +39,10 @@ namespace OSProject.ControlUnit
         public void terminate()
         {
             busy = false;
+            OSProject.Memory.Ram ram = OSProject.Memory.Ram.GetInstance();
+            int start = currentProcess.GetProcessMemoryStart();
+            int end = currentProcess.GetDataMemoryStart() + currentProcess.GetDataDiskSize() + currentProcess.GetTempBuffer();
+            OSProject.Memory.Ram.GetInstance().WipeRam(start, end);
         }
 
         public void dispatchProcess(int process)
@@ -63,8 +67,9 @@ namespace OSProject.ControlUnit
 
         public void setCurrentInstruction(int nInstruction)
         {
-            if ((nInstruction > currentProcess.GetProcessMemoryStart()) &&
-                (nInstruction < currentProcess.GetProcessMemoryStart() + currentProcess.GetProcessCount()))
+            int start = currentProcess.GetProcessMemoryStart();
+            int end = currentProcess.GetProcessMemoryStart() + currentProcess.GetProcessCount();
+            if ((nInstruction > start) && (nInstruction < end))
             {
                 instruction = nInstruction;
             }

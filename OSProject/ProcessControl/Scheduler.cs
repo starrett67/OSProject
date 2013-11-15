@@ -74,7 +74,7 @@ namespace OSProject.ProcessControl
                 }
                 while (DataTempBuffer > 0)
                 {
-                    Ram.GetInstance().Write("");
+                    Ram.GetInstance().Write("0x00000000");
                     DataTempBuffer--;
                 }
             }
@@ -88,6 +88,7 @@ namespace OSProject.ProcessControl
             int nextJob = ReadyQueue.GetInstance().getHighestPriority();
             if (nextJob > 0)
             {
+                Console.Out.WriteLine(nextJob);
                 Dispatcher.GetInstance().dispatchProcess(nextJob);
                 ReadyQueue.GetInstance().removeFromReadyQueue(nextJob);
                 PCB.GetInstance().getProcessData(nextJob).SetProcessState(ProcessData.PROCESS_RUNNING);

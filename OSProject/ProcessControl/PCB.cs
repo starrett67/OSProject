@@ -74,8 +74,13 @@ namespace OSProject.ProcessControl
             }
             else
             {
+                int temp = currentProcess;
                 currentProcess++;
-                return dataList.ElementAt(currentProcess - 1);
+                if (currentProcess == dataList.Count)
+                {
+                    done = true;
+                }
+                return dataList.ElementAt(temp);
             }
         }
         public ProcessData getCurrentProcess()
