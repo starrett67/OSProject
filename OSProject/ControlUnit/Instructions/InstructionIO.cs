@@ -7,15 +7,14 @@ namespace OSProject.ControlUnit
 {
     class InstructionIO : Instruction
     {
-        public String Reg1;
-        public String Reg2;
-        public String Address;
-
-        public InstructionIO()
+        public InstructionIO(Instruction instruction)
         {
-            this.Reg1 = this.parameter.Substring(0, 4);
-            this.Reg2 = this.parameter.Substring(4, 4);
-            this.Address = this.parameter.Substring(8, this.parameter.Length - 8);
+            this.opCode = instruction.opCode;
+            this.format = instruction.format;
+            this.parameter = instruction.parameter;
+            this.Reg1 = Convert.ToInt32(instruction.parameter.Substring(0, 4), 2);
+            this.Reg2 = Convert.ToInt32(instruction.parameter.Substring(4, 4), 2);
+            this.Address = Convert.ToInt32(instruction.parameter.Substring(8, instruction.parameter.Length - 8), 2);
         }
     }
 }

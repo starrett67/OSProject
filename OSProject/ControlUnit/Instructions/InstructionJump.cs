@@ -7,10 +7,13 @@ namespace OSProject.ControlUnit
 {
     class InstructionJump : Instruction
     {
-        public String Address;
-        public InstructionJump()
+        public int Address;
+        public InstructionJump(Instruction instruction)
         {
-            this.Address = this.parameter;
+            this.opCode = instruction.opCode;
+            this.format = instruction.format;
+            this.parameter = instruction.parameter;
+            this.Address = Convert.ToInt32(instruction.parameter, 2);
         }
     }
 }

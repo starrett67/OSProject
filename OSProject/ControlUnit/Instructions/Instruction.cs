@@ -10,6 +10,13 @@ namespace OSProject.ControlUnit
         public String format;
         public String opCode;
         public String parameter;
+        public int SReg1;
+        public int SReg2;
+        public int Reg1;
+        public int Reg2;
+        public int BReg;
+        public int DReg;
+        public int Address;
 
         public Instruction()
         {

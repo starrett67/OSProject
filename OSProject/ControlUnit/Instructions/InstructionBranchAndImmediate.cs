@@ -7,15 +7,14 @@ namespace OSProject.ControlUnit
 {
     class InstructionBranchAndImmediate : Instruction
     {
-        public String BReg;
-        public String DReg;
-        public String Address;
-
-        public InstructionBranchAndImmediate()
+        public InstructionBranchAndImmediate(Instruction instruction)
         {
-            this.BReg = this.parameter.Substring(0, 4);
-            this.DReg = this.parameter.Substring(4, 4);
-            this.Address = this.parameter.Substring(8, this.parameter.Length - 8);
+            this.opCode = instruction.opCode;
+            this.format = instruction.format;
+            this.parameter = instruction.parameter;
+            this.BReg = Convert.ToInt32(instruction.parameter.Substring(0, 4), 2);
+            this.DReg = Convert.ToInt32(instruction.parameter.Substring(4, 4), 2);
+            this.Address = Convert.ToInt32(instruction.parameter.Substring(8, this.parameter.Length - 8), 2);
         }
     }
 }

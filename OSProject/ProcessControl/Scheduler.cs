@@ -90,6 +90,7 @@ namespace OSProject.ProcessControl
             {
                 Dispatcher.GetInstance().dispatchProcess(nextJob);
                 ReadyQueue.GetInstance().removeFromReadyQueue(nextJob);
+                PCB.GetInstance().getProcessData(nextJob).SetProcessState(ProcessData.PROCESS_RUNNING);
                 return true;
             }
             else

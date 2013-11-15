@@ -37,12 +37,12 @@ namespace OSProject.ProcessControl
 
         public int getHighestPriority()
         {
-            int priority = 0;
-            int temp = 0;
+            int priority = 999;
+            int temp = 999;
             foreach (int id in readyQueue)
             {
                 temp = PCB.GetInstance().getProcessData(id).GetJobPriority();
-                if (temp > priority)
+                if (temp < priority)
                 {
                     priority = id;
                 }

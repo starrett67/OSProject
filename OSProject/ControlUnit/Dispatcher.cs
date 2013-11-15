@@ -11,7 +11,7 @@ namespace OSProject.ControlUnit
     {
         private static Dispatcher dispatcher;
         private bool busy;
-        private ProcessData currentProcess;
+        public ProcessData currentProcess;
         private int instruction;
         
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -36,9 +36,9 @@ namespace OSProject.ControlUnit
             return busy;
         }
 
-        public void setBusy(bool val)
+        public void terminate()
         {
-            busy = val;
+            busy = false;
         }
 
         public void dispatchProcess(int process)
@@ -46,10 +46,8 @@ namespace OSProject.ControlUnit
             currentProcess = PCB.GetInstance().getProcessData(process);
             instruction = currentProcess.GetProcessMemoryStart();
             busy = true;
-            CPU.GetInstance().loadCache(currentProcess);
         }
 
-        /*
         public int getInstruction()
         {
             if (currentProcess != null )
@@ -70,7 +68,11 @@ namespace OSProject.ControlUnit
             {
                 instruction = nInstruction;
             }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Instruction out of bounds");
+            }
         }
-         */
+         
     }
 }

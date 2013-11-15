@@ -32,7 +32,7 @@ namespace OSProject.Memory
         //read ram
         public String Read(int index)
         {
-            if (index > 0 && index < 1024)
+            if (index > -1 && index < 1024)
             {
                 return ram[index];
             }
